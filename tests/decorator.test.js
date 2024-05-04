@@ -15,7 +15,7 @@ test(
         const patchedSourceCode = injector.toString();
 
         expect(patchedSourceCode.startsWith(`( () => { const `)).toBe(true);
-        expect(patchedSourceCode.endsWith(`); } )()`)).toBe(true);
+        expect(patchedSourceCode.endsWith(`);} )()`)).toBe(true);
     }
 );
 
@@ -37,6 +37,6 @@ test(
         const patchedSourceCode = injector.toString();
 
         expect(patchedSourceCode.startsWith(`( () => { const `)).toBe(true);
-        expect(patchedSourceCode.endsWith(`); } )()`)).toBe(true);
+        expect(patchedSourceCode.endsWith(`);} )()`)).toBe(true);
     }
 );

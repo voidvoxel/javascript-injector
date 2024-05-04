@@ -143,6 +143,9 @@ export class JavaScriptInjector {
 
         sourceCode = sourceCode.trim();
 
+        // Remove all newlines.
+        sourceCode.replaceAll('\n', ' ');
+
         // Trim semicolons at the end.
         sourceCode = sourceCode + '\n';
 
@@ -150,12 +153,32 @@ export class JavaScriptInjector {
             sourceCode = sourceCode.replaceAll(";\n", ';');
         }
 
+        // Trim all whitespace from the end of the source code.
         sourceCode = sourceCode.trimEnd();
 
-        // Remove all double semi-colons.
+        // Remove the whitespace surrounding all semicolons.
+        while (sourceCode.includes("; ")) {
+            sourceCode = sourceCode.replaceAll("; ", ';');
+        }
+
+        while (sourceCode.includes(" ;")) {
+            sourceCode = sourceCode.replaceAll(" ;", ';');
+        }
+
+        // Remove all double semicolons.
         while (sourceCode.includes(";;")) {
             sourceCode = sourceCode.replaceAll(";;", ';');
         }
+
+        // Remove initial semicolons.
+        if (sourceCode.startsWith(';')) {
+            sourceCode = sourceCode.substring(1);
+        }
+
+        // Remove final semicolons.
+        // if (sourceCode.startsWith(';')) {
+        //     sourceCode = sourceCode.substring(0, sourceCode.length - 1);
+        // }
 
         return sourceCode;
     }
