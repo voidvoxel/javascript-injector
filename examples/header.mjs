@@ -19,4 +19,4 @@ injector.addHeader(component);
 
 const patchedSourceCode = sourceCode = injector.toString();
 
-eval(patchedSourceCode);
+injector.eval();

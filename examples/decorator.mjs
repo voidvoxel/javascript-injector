@@ -19,4 +19,4 @@ injector.addDecorator(decorator);
 
 const patchedSourceCode = sourceCode = injector.toString();
 
-eval(patchedSourceCode);
+injector.eval();
