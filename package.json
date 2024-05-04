@@ -16,5 +16,8 @@
     },
     "jest": {
         "transform": {}
+    },
+    "dependencies": {
+        "@voidvoxel/random-integer": "^1.0.1"
     }
 }
