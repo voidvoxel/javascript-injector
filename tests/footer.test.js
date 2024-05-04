@@ -1,0 +1,40 @@
+import { JavaScriptInjector } from "../JavaScriptInjector.mjs";
+
+
+test(
+    "add a footer to source code",
+    () => {
+        const originalSourceCode = `console.log("Hello, world!");`;
+
+        const injector = new JavaScriptInjector(originalSourceCode);
+
+        const footer = `brain = Zerda.require('brain.js');`;
+
+        injector.addFooter(footer);
+
+        const patchedSourceCode = injector.toString();
+
+        expect(patchedSourceCode).toBe(originalSourceCode + footer);
+    }
+);
+
+
+test(
+    "add multiple footers to source code",
+    () => {
+        const originalSourceCode = `console.log("Hello, world!");`;
+
+        const injector = new JavaScriptInjector(originalSourceCode);
+
+        const footers = [
+            `Corestore = Zerda.require('corestore')`,
+            `Hyperdrive = Zerda.require('hyperdrive')`
+        ];
+
+        injector.addFooter(footers);
+
+        const patchedSourceCode = injector.toString();
+
+        expect(patchedSourceCode).toBe(originalSourceCode + footers.join(';'));
+    }
+);

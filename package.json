@@ -1,0 +1,20 @@
+{
+    "name": "javascript-injector",
+    "version": "0.0.0",
+    "description": "Inject headers, footers, and wrappers into JavaScript source code",
+    "main": "JavaScriptInjector.mjs",
+    "type": "module",
+    "scripts": {
+      "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js"
+    },
+    "keywords": [],
+    "author": "Ashlynne Juniper",
+    "license": "MPL-2.0",
+    "devDependencies": {
+      "jest": "^29.7.0",
+      "pkg": "^5.8.1"
+    },
+    "jest": {
+      "transform": {}
+    }
+  }
