@@ -1,9 +1,7 @@
 import randomInteger from '@voidvoxel/random-integer';
 
 
-function createId () {
-    return new randomInteger(Infinity);
-}
+const EXPORT_KEYWORD = 'export';
 
 
 export class JavaScriptInjector {
@@ -44,6 +42,13 @@ export class JavaScriptInjector {
         decorators = decorators.flat(Infinity);
 
         for (let decorator of decorators) {
+            decorator = decorator.trim();
+
+            // Remove the `export` keyword from the decorator.
+            if (decorator.startsWith(EXPORT_KEYWORD)) {
+                decorator = decorator.substring(EXPORT_KEYWORD.length);
+            }
+
             this.#decorators.push(decorator);
         }
     }
@@ -102,26 +107,10 @@ export class JavaScriptInjector {
 
         let decorators = structuredClone(this.#decorators);
 
-        let headers = this.#headers.join(';');
-        let footers = this.#footers.join(';');
+        let headers = this.#getHeaderString();
+        let footers = this.#getFooterString();
 
-        let sourceCode = body;
-
-        if (headers.length > 0) {
-            if (!headers.endsWith(';')) {
-                headers += ';';
-            }
-
-            sourceCode = headers + sourceCode;
-        }
-
-        if (footers.length > 0) {
-            if (!footers.startsWith(';')) {
-                footers = ';' + footers;
-            }
-
-            sourceCode = sourceCode + footers;
-        }
+        let sourceCode = headers + body + footers;
 
         while (decorators.length > 0) {
             const decorator = decorators.pop();
@@ -164,5 +153,31 @@ export class JavaScriptInjector {
         }
 
         return sourceCode;
+    }
+
+
+    #getFooterString () {
+        let footers = this.#footers.join(';');
+
+        if (footers.length > 0) {
+            if (!footers.startsWith(';')) {
+                footers = ';' + footers;
+            }
+        }
+
+        return footers === ';' ? '' : footers;
+    }
+
+
+    #getHeaderString () {
+        let headers = this.#headers.join(';');
+
+        if (headers.length > 0) {
+            if (!headers.endsWith(';')) {
+                headers += ';';
+            }
+        }
+
+        return headers === ';' ? '' : headers;
     }
 }
