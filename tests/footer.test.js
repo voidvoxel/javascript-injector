@@ -34,7 +34,8 @@ test(
         injector.addFooter(footers);
 
         const patchedSourceCode = injector.toString();
+        const expectedSourceCode = originalSourceCode + footers.join(';');
 
-        expect(patchedSourceCode).toBe(originalSourceCode + footers.join(';'));
+        expect(patchedSourceCode).toBe(expectedSourceCode);
     }
 );
