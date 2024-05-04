@@ -19,4 +19,7 @@ injector.addFooter(component);
 
 const patchedSourceCode = sourceCode = injector.toString();
 
+console.log(patchedSourceCode);
+console.log();
+
 injector.eval();
