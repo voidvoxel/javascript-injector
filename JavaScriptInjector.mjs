@@ -77,6 +77,11 @@ export class JavaScriptInjector {
     }
 
 
+    eval () {
+        eval(this.toString());
+    }
+
+
     getBody () {
         return this.#body;
     }
