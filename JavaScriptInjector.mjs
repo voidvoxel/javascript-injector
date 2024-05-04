@@ -1,8 +1,22 @@
+import randomInteger from '@voidvoxel/random-integer';
+
+
+function createId () {
+    return new randomInteger(Infinity);
+}
+
+
 export class JavaScriptInjector {
     /**
      * @type {string}
      */
     #body
+
+
+    /**
+     * @type {string[]}
+     */
+    #decorators
 
 
     /**
@@ -18,10 +32,20 @@ export class JavaScriptInjector {
 
 
     constructor (sourceCode) {
-        this.#body = sourceCode;
+        this.setBody(sourceCode);
 
+        this.#decorators = [];
         this.#headers = [];
         this.#footers = [];
+    }
+
+
+    addDecorator (...decorators) {
+        decorators = decorators.flat(Infinity);
+
+        for (let decorator of decorators) {
+            this.#decorators.push(decorator);
+        }
     }
 
 
@@ -44,12 +68,17 @@ export class JavaScriptInjector {
 
 
     build () {
-        return new this(this.toString());
+        return new JavaScriptInjector(this.toString());
     }
 
 
     getBody () {
         return this.#body;
+    }
+
+
+    getDecorators () {
+        return structuredClone(this.#decorators);
     }
 
 
@@ -63,8 +92,15 @@ export class JavaScriptInjector {
     }
 
 
+    setBody (sourceCode) {
+        this.#body = sourceCode.trim();
+    }
+
+
     toString () {
         const body = this.#body;
+
+        let decorators = structuredClone(this.#decorators);
 
         let headers = this.#headers.join(';');
         let footers = this.#footers.join(';');
@@ -87,6 +123,42 @@ export class JavaScriptInjector {
             sourceCode = sourceCode + footers;
         }
 
+        while (decorators.length > 0) {
+            const decorator = decorators.pop();
+
+            // Create random IDs for both the body and the decorator.
+            const bodyId = '_' + randomInteger();
+            const decoratorId = '_' + randomInteger();
+
+            // Create an array to hold all of the lines of code.
+            const lines = [];
+
+            // Define the decorator.
+            lines.push(`const ${decoratorId} = (${decorator});`);
+
+            // Define the body.
+            // The body is the original source code to be decorated.
+            lines.push(`const ${bodyId} = ( () => { ${sourceCode} } );`);
+
+            // Decorate the body.
+            lines.push(`${decoratorId}(${bodyId});`);
+
+            // Update the source code.
+            sourceCode = `( () => { ${lines.join(';')} } )()`;
+        }
+
+        sourceCode = sourceCode.trim();
+
+        // Trim semicolons at the end.
+        sourceCode = sourceCode + '\n';
+
+        while (sourceCode.includes(";\n")) {
+            sourceCode = sourceCode.replaceAll(";\n", ';');
+        }
+
+        sourceCode = sourceCode.trimEnd();
+
+        // Remove all double semi-colons.
         while (sourceCode.includes(";;")) {
             sourceCode = sourceCode.replaceAll(";;", ';');
         }
