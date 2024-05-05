@@ -4,13 +4,28 @@ import randomInteger from '@voidvoxel/random-integer';
 const EXPORT_KEYWORD = 'export';
 
 
+/**
+ * Modify JavaScript by adding headers, footers, and decorators to source code.
+ *
+ * ```js
+ * const injector = new JavaScriptInjector();
+ *
+ * function decorator (callback) {
+ *     console.log("Before");
+ *
+ *     callback();
+ *
+ *     console.log("After");
+ * }
+ *
+ * injector.addDecorator(decorator);
+ *
+ * function helloWorld () {
+ *     console.log("Hello, world!");
+ * }
+ * ```
+ */
 export class JavaScriptInjector {
-    /**
-     * @type {string}
-     */
-    #body
-
-
     /**
      * @type {string[]}
      */
@@ -29,9 +44,7 @@ export class JavaScriptInjector {
     #headers
 
 
-    constructor (sourceCode) {
-        this.setBody(sourceCode);
-
+    constructor () {
         this.#decorators = [];
         this.#headers = [];
         this.#footers = [];
@@ -42,6 +55,10 @@ export class JavaScriptInjector {
         decorators = decorators.flat(Infinity);
 
         for (let decorator of decorators) {
+            if (typeof decorator === 'function') {
+                decorator = decorator.toString();
+            }
+
             decorator = decorator.trim();
 
             // Remove the `export` keyword from the decorator.
@@ -72,18 +89,40 @@ export class JavaScriptInjector {
     }
 
 
+    /**
+     * Build the `JavaScriptInjector` into a reusable `function`.
+     */
     build () {
-        return new JavaScriptInjector(this.toString());
+        const injector = this;
+
+        /**
+         * Modify source code with headers, footers, decorators, etc.
+         * @param {string} sourceCode
+         * The source code to modify.
+         * @returns {string}
+         * The modified source code.
+         */
+        function inject (sourceCode) {
+            return injector.inject(sourceCode);
+        }
+
+        return inject;
     }
 
 
-    eval () {
-        eval(this.toString());
-    }
+    /**
+     * Evaluate source code after modifying it.
+     * @param {string} sourceCode
+     * The source code to evaluate.
+     * @returns {*}
+     * The result of the evaluated source code.
+     */
+    eval (sourceCode) {
+        // Modify the source code.
+        sourceCode = this.inject(sourceCode);
 
-
-    getBody () {
-        return this.#body;
+        // Evaluate the modified source code.
+        return eval(sourceCode);
     }
 
 
@@ -102,44 +141,23 @@ export class JavaScriptInjector {
     }
 
 
-    setBody (sourceCode) {
-        this.#body = sourceCode.trim();
-    }
-
-
-    toString () {
-        const body = this.#body;
-
-        let decorators = structuredClone(this.#decorators);
+    /**
+     * Modify source code by applying this injector's headers, footers, and
+     * decorators to the source code.
+     * @param {string} sourceCode
+     * The source code to modify.
+     * @returns {string}
+     * The modified source code.
+     */
+    inject (sourceCode) {
+        const body = sourceCode;
 
         let headers = this.#getHeaderString();
         let footers = this.#getFooterString();
 
-        let sourceCode = headers + body + footers;
+        sourceCode = headers + body + footers;
 
-        while (decorators.length > 0) {
-            const decorator = decorators.pop();
-
-            // Create random IDs for both the body and the decorator.
-            const bodyId = '_' + randomInteger();
-            const decoratorId = '_' + randomInteger();
-
-            // Create an array to hold all of the lines of code.
-            const lines = [];
-
-            // Define the decorator.
-            lines.push(`const ${decoratorId} = (${decorator});`);
-
-            // Define the body.
-            // The body is the original source code to be decorated.
-            lines.push(`const ${bodyId} = ( () => { ${sourceCode} } );`);
-
-            // Decorate the body.
-            lines.push(`${decoratorId}(${bodyId});`);
-
-            // Update the source code.
-            sourceCode = `( () => { ${lines.join(';')} } )()`;
-        }
+        sourceCode = this.#decorate(sourceCode);
 
         sourceCode = sourceCode.trim();
 
@@ -179,6 +197,37 @@ export class JavaScriptInjector {
         // if (sourceCode.startsWith(';')) {
         //     sourceCode = sourceCode.substring(0, sourceCode.length - 1);
         // }
+
+        return sourceCode;
+    }
+
+
+    #decorate (sourceCode) {
+        let decorators = structuredClone(this.#decorators);
+
+        while (decorators.length > 0) {
+            const decorator = decorators.pop();
+
+            // Create random IDs for both the body and the decorator.
+            const bodyId = '_' + randomInteger();
+            const decoratorId = '_' + randomInteger();
+
+            // Create an array to hold all of the lines of code.
+            const lines = [];
+
+            // Define the decorator.
+            lines.push(`const ${decoratorId} = (${decorator});`);
+
+            // Define the body.
+            // The body is the original source code to be decorated.
+            lines.push(`const ${bodyId} = ( () => { ${sourceCode} } );`);
+
+            // Decorate the body.
+            lines.push(`${decoratorId}(${bodyId});`);
+
+            // Update the source code.
+            sourceCode = `( () => { ${lines.join(';')} } )()`;
+        }
 
         return sourceCode;
     }

@@ -6,13 +6,13 @@ test(
     () => {
         const originalSourceCode = `console.log("Hello, world!");`;
 
-        const injector = new JavaScriptInjector(originalSourceCode);
+        const injector = new JavaScriptInjector();
 
         const header = `brain = Zerda.require('brain.js');`;
 
         injector.addHeader(header);
 
-        const patchedSourceCode = injector.toString();
+        const patchedSourceCode = injector.inject(originalSourceCode);
 
         expect(patchedSourceCode).toBe(header + originalSourceCode);
     }
@@ -24,7 +24,7 @@ test(
     () => {
         const originalSourceCode = `console.log("Hello, world!");`;
 
-        const injector = new JavaScriptInjector(originalSourceCode);
+        const injector = new JavaScriptInjector();
 
         const headers = [
             `Corestore = Zerda.require('corestore')`,
@@ -33,7 +33,7 @@ test(
 
         injector.addHeader(headers);
 
-        const patchedSourceCode = injector.toString();
+        const patchedSourceCode = injector.inject(originalSourceCode);
 
         expect(patchedSourceCode).toBe(headers.join(';') + ';' + originalSourceCode);
     }

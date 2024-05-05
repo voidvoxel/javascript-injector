@@ -6,8 +6,8 @@ test(
     () => {
         const originalSourceCode = `console.log("Hello, world!");`;
 
-        const injector = new JavaScriptInjector(originalSourceCode);
+        const injector = new JavaScriptInjector();
 
-        expect(injector.build().toString()).toBe(injector.toString());
+        expect(injector.build()(originalSourceCode)).toBe(injector.inject(originalSourceCode));
     }
 );
