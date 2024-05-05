@@ -8,7 +8,11 @@ test(
 
         const injector = new JavaScriptInjector();
 
-        const decorator = `function (cb) { console.log("This is a decorator."); cb(); }`;
+        function decorator (callback) {
+            console.log("This is a decorator.");
+
+            callback();
+        }
 
         injector.addDecorator(decorator);
 
