@@ -1,4 +1,4 @@
-import { JavaScriptInjector } from "../JavaScriptInjector.mjs";
+import JavaScriptInjector from "../JavaScriptInjector.mjs";
 
 
 test(

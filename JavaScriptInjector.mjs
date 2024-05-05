@@ -25,7 +25,7 @@ const EXPORT_KEYWORD = 'export';
  * }
  * ```
  */
-export class JavaScriptInjector {
+export default class JavaScriptInjector {
     /**
      * @type {string[]}
      */
