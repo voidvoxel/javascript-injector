@@ -295,6 +295,16 @@ export default class JavaScriptInjector {
     }
 
 
+    /**
+     * Decorate source code.
+     *
+     * @private
+     * @since v0.6.0
+     * @version 1.0.0
+     *
+     * @param {string} sourceCode
+     * @returns {string}
+     */
     #decorate (sourceCode) {
         let decorators = structuredClone(this.#decorators);
 
@@ -326,6 +336,15 @@ export default class JavaScriptInjector {
     }
 
 
+    /**
+     * Concatenate the footers into a single string.
+     *
+     * @private
+     * @since v0.6.0
+     * @version 1.0.0
+     *
+     * @returns {string}
+     */
     #getFooterString () {
         let footers = this.#footers.join(';');
 
@@ -341,6 +360,15 @@ export default class JavaScriptInjector {
     }
 
 
+    /**
+     * Concatenate the headers into a single string.
+     *
+     * @private
+     * @since v0.6.0
+     * @version 1.0.0
+     *
+     * @returns {string}
+     */
     #getHeaderString () {
         let headers = this.#headers.join(';');
 
