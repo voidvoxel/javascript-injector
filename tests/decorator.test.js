@@ -19,7 +19,7 @@ test(
         const patchedSourceCode = injector.inject(originalSourceCode);
 
         expect(patchedSourceCode.startsWith(`( () => { const `)).toBe(true);
-        expect(patchedSourceCode.endsWith(`);} )()`)).toBe(true);
+        expect(patchedSourceCode.endsWith(`) } )()`)).toBe(true);
     }
 );
 
@@ -41,6 +41,6 @@ test(
         const patchedSourceCode = injector.inject(originalSourceCode);
 
         expect(patchedSourceCode.startsWith(`( () => { const `)).toBe(true);
-        expect(patchedSourceCode.endsWith(`);} )()`)).toBe(true);
+        expect(patchedSourceCode.endsWith(`) } )()`)).toBe(true);
     }
 );

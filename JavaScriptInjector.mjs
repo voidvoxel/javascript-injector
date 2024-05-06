@@ -230,14 +230,14 @@ export default class JavaScriptInjector {
             const lines = [];
 
             // Define the decorator.
-            lines.push(`const ${decoratorId} = (${decorator});`);
+            lines.push(`const ${decoratorId} = (${decorator})`);
 
             // Define the body.
             // The body is the original source code to be decorated.
-            lines.push(`const ${bodyId} = (function () { ${sourceCode} });`);
+            lines.push(`const ${bodyId} = (function () { ${sourceCode} })`);
 
             // Decorate the body.
-            lines.push(`return ${decoratorId}(${bodyId});`);
+            lines.push(`return ${decoratorId}(${bodyId})`);
 
             // Update the source code.
             sourceCode = `( () => { ${lines.join(';')} } )()`;
@@ -256,6 +256,8 @@ export default class JavaScriptInjector {
             }
         }
 
+        footers = footers.trim();
+
         return footers === ';' ? '' : footers;
     }
 
@@ -268,6 +270,8 @@ export default class JavaScriptInjector {
                 headers += ';';
             }
         }
+
+        headers = headers.trim();
 
         return headers === ';' ? '' : headers;
     }
