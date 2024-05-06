@@ -57,6 +57,18 @@ export default class JavaScriptInjector {
     }
 
 
+    /**
+     * Add decorators to surround the source code.
+     *
+     * @public
+     * @since v0.6.0
+     * @version 1.0.0
+     *
+     * @param  {...any} decorators
+     * The decorators to add.
+     *
+     * @returns {void}
+     */
     addDecorator (...decorators) {
         decorators = decorators.flat(Infinity);
 
@@ -77,6 +89,18 @@ export default class JavaScriptInjector {
     }
 
 
+    /**
+     * Add footers to the end of the source code.
+     *
+     * @public
+     * @since v0.6.0
+     * @version 1.0.0
+     *
+     * @param  {...any} footers
+     * The footers to add.
+     *
+     * @returns {void}
+     */
     addFooter (...footers) {
         footers = footers.flat(Infinity);
 
@@ -90,6 +114,18 @@ export default class JavaScriptInjector {
     }
 
 
+    /**
+     * Add headers to the beginning of the source code.
+     *
+     * @public
+     * @since v0.6.0
+     * @version 1.0.0
+     *
+     * @param  {...any} headers
+     * The headers to add.
+     *
+     * @returns {void}
+     */
     addHeader (...headers) {
         headers = headers.flat(Infinity);
 
@@ -105,6 +141,10 @@ export default class JavaScriptInjector {
 
     /**
      * Build the `JavaScriptInjector` into a reusable `function`.
+     *
+     * @public
+     * @since v0.6.0
+     * @version 1.0.0
      */
     build () {
         const injector = this;
@@ -126,6 +166,11 @@ export default class JavaScriptInjector {
 
     /**
      * Evaluate source code after modifying it.
+     *
+     * @public
+     * @since v0.6.0
+     * @version 1.0.0
+     *
      * @param {string} sourceCode
      * The source code to evaluate.
      * @returns {*}
@@ -140,16 +185,46 @@ export default class JavaScriptInjector {
     }
 
 
+    /**
+     * Get the list of decorators.
+     *
+     * @public
+     * @since v0.6.0
+     * @version 1.0.0
+     *
+     * @returns {string[]}
+     * The list of decorators.
+     */
     getDecorators () {
         return structuredClone(this.#decorators);
     }
 
 
+    /**
+     * Get the list of footers.
+     *
+     * @public
+     * @since v0.6.0
+     * @version 1.0.0
+     *
+     * @returns {string[]}
+     * The list of footers.
+     */
     getFooters () {
         return structuredClone(this.#footers);
     }
 
 
+    /**
+     * Get the list of headers.
+     *
+     * @public
+     * @since v0.6.0
+     * @version 1.0.0
+     *
+     * @returns {string[]}
+     * The list of headers.
+     */
     getHeaders () {
         return structuredClone(this.#headers);
     }
@@ -158,12 +233,17 @@ export default class JavaScriptInjector {
     /**
      * Modify source code by applying this injector's headers, footers, and
      * decorators to the source code.
+     *
+     * @public
+     * @since v0.6.0
+     * @version 1.0.0
+     *
      * @param {string} sourceCode
      * The source code to modify.
      * @returns {string}
      * The modified source code.
      */
-    inject (sourceCode) {
+    inject () {
         const body = sourceCode;
 
         let headers = this.#getHeaderString();
