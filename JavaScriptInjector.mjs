@@ -243,7 +243,9 @@ export default class JavaScriptInjector {
      * @returns {string}
      * The modified source code.
      */
-    inject () {
+    inject (
+        sourceCode
+    ) {
         const body = sourceCode;
 
         let headers = this.#getHeaderString();
