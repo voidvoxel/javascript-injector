@@ -257,9 +257,6 @@ export default class JavaScriptInjector {
 
         sourceCode = sourceCode.trim();
 
-        // Remove all newlines.
-        sourceCode.replaceAll('\n', ' ');
-
         // Trim semicolons at the end.
         sourceCode = sourceCode + '\n';
 
