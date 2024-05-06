@@ -145,6 +145,8 @@ export default class JavaScriptInjector {
      * @public
      * @since v0.6.0
      * @version 1.0.0
+     *
+     * @returns {function (string): string}
      */
     build () {
         const injector = this;
