@@ -1,5 +1,7 @@
 # `javascript-injector`
 
+[![Known Vulnerabilities](https://snyk.io/test/github/voidvoxel/javascript-injector/badge.svg)](https://snyk.io/test/github/voidvoxel/javascript-injector)
+
 Inject headers, footers, and wrappers into JavaScript source code.
 
 ## Installation
