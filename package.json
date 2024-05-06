@@ -1,6 +1,6 @@
 {
     "name": "javascript-injector",
-    "version": "0.7.0",
+    "version": "0.7.1",
     "description": "Inject headers, footers, and wrappers into JavaScript source code",
     "main": "JavaScriptInjector.mjs",
     "type": "module",
