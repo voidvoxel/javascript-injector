@@ -1,3 +1,4 @@
+import parseFunction from "@voidvoxel/parse-function";
 import randomInteger from '@voidvoxel/random-integer';
 
 
@@ -254,13 +255,17 @@ export default class JavaScriptInjector {
     inject (
         sourceCode
     ) {
+        // Get the body of the source code.
         const body = sourceCode;
 
+        // Get the headers and footers to add to the source code.
         let headers = this.#getHeaderString();
         let footers = this.#getFooterString();
 
+        // Add the headers and footers to the source code.
         sourceCode = headers + body + footers;
 
+        // Decorate the source code.
         sourceCode = this.#decorate(sourceCode);
 
         sourceCode = sourceCode.trim();
