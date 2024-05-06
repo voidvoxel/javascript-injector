@@ -8,13 +8,16 @@ test(
 
         const injector = new JavaScriptInjector();
 
-        const header = `brain = Zerda.require('brain.js');`;
+        function header () {
+            globalThis.moment = require('moment');
+        }
 
         injector.addHeader(header);
 
         const patchedSourceCode = injector.inject(originalSourceCode);
 
-        expect(patchedSourceCode).toBe(header + originalSourceCode);
+        expect(patchedSourceCode.includes(originalSourceCode)).toBe(true);
+        expect(patchedSourceCode.includes(`function header`)).toBe(true);
     }
 );
 
@@ -27,14 +30,14 @@ test(
         const injector = new JavaScriptInjector();
 
         const headers = [
-            `Corestore = Zerda.require('corestore')`,
-            `Hyperdrive = Zerda.require('hyperdrive')`
+            () => globalThis.moment = require('moment'),
+            () => globalThis.JavaScriptInjector = require('javascript-injector')
         ];
 
         injector.addHeader(headers);
 
         const patchedSourceCode = injector.inject(originalSourceCode);
 
-        expect(patchedSourceCode).toBe(headers.join(';') + ';' + originalSourceCode);
+        expect(patchedSourceCode).toBe('(' + headers.join(")();(") + ")();" + originalSourceCode);
     }
 );

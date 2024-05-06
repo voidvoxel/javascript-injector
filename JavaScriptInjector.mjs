@@ -8,21 +8,27 @@ const EXPORT_KEYWORD = 'export';
  * Modify JavaScript by adding headers, footers, and decorators to source code.
  *
  * ```js
- * const injector = new JavaScriptInjector();
+ * const undecorated = `console.log("undecorated");`;
+ *
  *
  * function decorator (callback) {
- *     console.log("Before");
+ *     console.log("before");
  *
  *     callback();
  *
- *     console.log("After");
+ *     console.log("after");
  * }
+ *
+ *
+ * const injector = new JavaScriptInjector();
  *
  * injector.addDecorator(decorator);
  *
- * function helloWorld () {
- *     console.log("Hello, world!");
- * }
+ * const decorated = injector.inject(undecorated);
+ *
+ * const f = new Function(decorated);
+ *
+ * f();
  * ```
  */
 export default class JavaScriptInjector {
@@ -75,6 +81,10 @@ export default class JavaScriptInjector {
         footers = footers.flat(Infinity);
 
         for (let footer of footers) {
+            if (typeof footer === 'function') {
+                footer = `(${footer.toString()})()`;
+            }
+
             this.#footers.push(footer);
         }
     }
@@ -84,6 +94,10 @@ export default class JavaScriptInjector {
         headers = headers.flat(Infinity);
 
         for (let header of headers) {
+            if (typeof header === 'function') {
+                header = `(${header.toString()})()`;
+            }
+
             this.#headers.push(header);
         }
     }
