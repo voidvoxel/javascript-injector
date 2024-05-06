@@ -17,6 +17,7 @@
         "transform": {}
     },
     "dependencies": {
+        "@voidvoxel/parse-function": "^0.5.4",
         "@voidvoxel/random-integer": "^1.0.1"
     }
 }
