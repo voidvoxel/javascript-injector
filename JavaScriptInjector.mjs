@@ -67,7 +67,7 @@ export default class JavaScriptInjector {
      * @param  {...any} decorators
      * The decorators to add.
      *
-     * @returns {void}
+     * @returns {JavaScriptInjector}
      */
     addDecorator (...decorators) {
         decorators = decorators.flat(Infinity);
@@ -86,6 +86,8 @@ export default class JavaScriptInjector {
 
             this.#decorators.push(decorator);
         }
+
+        return this;
     }
 
 
@@ -99,7 +101,7 @@ export default class JavaScriptInjector {
      * @param  {...any} footers
      * The footers to add.
      *
-     * @returns {void}
+     * @returns {JavaScriptInjector}
      */
     addFooter (...footers) {
         footers = footers.flat(Infinity);
@@ -111,6 +113,8 @@ export default class JavaScriptInjector {
 
             this.#footers.push(footer);
         }
+
+        return this;
     }
 
 
@@ -124,7 +128,7 @@ export default class JavaScriptInjector {
      * @param  {...any} headers
      * The headers to add.
      *
-     * @returns {void}
+     * @returns {JavaScriptInjector}
      */
     addHeader (...headers) {
         headers = headers.flat(Infinity);
@@ -136,6 +140,8 @@ export default class JavaScriptInjector {
 
             this.#headers.push(header);
         }
+
+        return this;
     }
 
 
