@@ -234,10 +234,10 @@ export default class JavaScriptInjector {
 
             // Define the body.
             // The body is the original source code to be decorated.
-            lines.push(`const ${bodyId} = ( () => { ${sourceCode} } );`);
+            lines.push(`const ${bodyId} = (function () { ${sourceCode} });`);
 
             // Decorate the body.
-            lines.push(`${decoratorId}(${bodyId});`);
+            lines.push(`return ${decoratorId}(${bodyId});`);
 
             // Update the source code.
             sourceCode = `( () => { ${lines.join(';')} } )()`;

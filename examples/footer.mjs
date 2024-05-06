@@ -1,7 +1,7 @@
 import { readFileSync } from 'fs';
 
 
-import { JavaScriptInjector } from "../JavaScriptInjector.mjs";
+import JavaScriptInjector from "../JavaScriptInjector.mjs";
 
 
 const originalSourceCode = `console.log("Hello, world!");`;
@@ -13,13 +13,13 @@ let component = readFileSync(
     'utf-8'
 );
 
-const injector = new JavaScriptInjector(sourceCode);
+const injector = new JavaScriptInjector();
 
 injector.addFooter(component);
 
-const patchedSourceCode = sourceCode = injector.toString();
+const patchedSourceCode = sourceCode = injector.inject(sourceCode);
 
 console.log(patchedSourceCode);
 console.log();
 
-injector.eval();
+injector.eval(originalSourceCode);
